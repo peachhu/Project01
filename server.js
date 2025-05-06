@@ -2,15 +2,22 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose')
 
+//Route files
+const menuitems = require('./routes/menuitems');
+const orderitems =  require('./routes/orderitems');
+const users =  require('./routes/users');
+
+
 //Load env vars
 dotenv.config({path:'./config/config.env'});
 
 const app = express();
 
-app.get('/', (req,res) =>{
 
-res.status(200).json({success: true,data:{id:1}});
-});
+//Mount routes
+app.use('/api/v1/menuitems', menuitems);
+app.use('/api/v1/orderitems',orderitems);
+app.use('/api/v1/users', users);
 
 
 const PORT = process.env.PORT || 5000
