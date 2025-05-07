@@ -24,6 +24,7 @@ const MenuitemSchema = new mongoose.Schema({
 
  recommended : {
     type : Boolean,
+    default : false
  },
 
 /*for the future develop

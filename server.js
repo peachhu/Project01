@@ -18,6 +18,8 @@ connectDB();
 
 const app = express();
 
+//Body parser
+ app.use(express.json());
 
 //Mount routes
 app.use('/api/v1/menuitems', menuitems);
