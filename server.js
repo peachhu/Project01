@@ -10,6 +10,7 @@ dotenv.config({path:'./config/config.env'});
 const menuitems = require('./routes/menuitems');
 const orderitems =  require('./routes/orderitems');
 const users =  require('./routes/users');
+const auth = require('./routes/auth');
 
 
 //connect to database
@@ -25,6 +26,7 @@ const app = express();
 app.use('/api/v1/menuitems', menuitems);
 app.use('/api/v1/orderitems',orderitems);
 app.use('/api/v1/users', users);
+app.use('/api/v1/auth', auth);
 
 
 const PORT = process.env.PORT || 5000

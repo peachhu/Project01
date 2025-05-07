@@ -46,7 +46,10 @@ exports.createMenuitem = async (req, res, next) => {
 //access private
 exports.updateMenuitem =async (req, res, next) => {
   try {
-    const menu = await Menuitem.findByIdAndUpdate(req.params.id, req.body);
+    const menu = await Menuitem.findByIdAndUpdate(req.params.id, req.body,{
+      new : true,
+      runValidators : true
+    });
     
     if(!menu){
      return res.status(400).json({success:false});
@@ -73,7 +76,7 @@ exports.deleteMenuitem = async (req, res, next) => {
     }
     
     
-    res.status(200).json({ success: true, data: menu });
+    res.status(200).json({ success: true, data: {} });
 
 
   } catch (err) {
