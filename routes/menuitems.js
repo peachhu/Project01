@@ -1,5 +1,5 @@
 const express = require('express');
-const {getMenuitem,getMenuitems,updateMenuitem,createMenuitem,deleteMenuitem} = require('../controller/menuitems')
+const {getMenuitem,getMenuitems,updateMenuitem,createMenuitem,deleteMenuitem} = require('../controllers/menuitems')
 const router = express.Router();
 
 
