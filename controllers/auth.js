@@ -20,6 +20,7 @@ const sendTokenResponse = (user, statusCode, res) => {
 
 //Register User
 // POST /api/v1/auth/register
+//@access public
 exports.register = async (req, res, next) => {
   try {
     const { name, telnumber, email, password, role } = req.body;
@@ -47,6 +48,7 @@ exports.register = async (req, res, next) => {
 
 //Login User
 // POST /api/v1/auth/login
+//@access public
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -76,3 +78,17 @@ exports.login = async (req, res, next) => {
   // res.status(200).json({ success: true,token });
   sendTokenResponse(user, 200, res);
 };
+
+
+//Get Me for user
+// GET /api/v1/auth/getme
+//@access private
+exports.getMe = async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  
+  if(!user){
+    return res.status(400).json({ success: false});
+  }
+
+  res.status(200).json({success: true,data:user});
+}
