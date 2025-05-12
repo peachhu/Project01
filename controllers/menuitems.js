@@ -13,7 +13,7 @@ exports.getMenuitems = asyncHandler(async(req, res, next) => {
     const reqQuery = {...req.query};
 
     //Fields to exclude
-    const removeFields=['select','sort']
+    const removeFields=['select','sort','page','limit'];
 
     //Loop over remove fields and delete them from reqQuery
     removeFields.forEach(param=>delete reqQuery[param]);
@@ -27,7 +27,7 @@ exports.getMenuitems = asyncHandler(async(req, res, next) => {
     let queryObj = JSON.parse(queryStr);
 
     query = Menuitem.find(queryObj)
-    
+
   //Select Fields
   if(req.query.select){
     const selected_fields = req.query.select.split(',').join(' ');
@@ -42,7 +42,32 @@ exports.getMenuitems = asyncHandler(async(req, res, next) => {
      query=query.sort('-createdAt');
   }
 
-    const menues = await Menuitem.find(query);
+//Pagination
+const page = parseInt(req.query.page , 10) || 1; // parseInt=> convert string to int
+const limit = parseInt(req.query.limit , 10) || 5;
+const startindex = (page-1)*limit;
+const endindex = page*limit;
+const total = await Menuitem.countDocuments();
+
+query = query.skip(startindex).limit(limit);
+
+    const menues = await query;
+
+    //Pagination result
+    const Pagination= {};
+    if(endindex<total){
+      Pagination.next={
+        page:page+1,
+        limit
+      }
+    }
+
+    if(startindex>0){
+      Pagination.prev={
+        page:page-1,
+        limit
+      }
+    }
 
     res.status(200).json({ success: true, count: menues.length, data: menues });
 
